@@ -1,0 +1,58 @@
+@startuml
+
+class Productor {
+    +documento_identidad: String
+    +nombre: String
+    +apellido: String
+    +telefono: String
+    +correo: String
+}
+
+class Finca {
+    +numero_catastro: String
+    +municipio: String
+}
+
+class Vivero {
+    +codigo: String
+    +tipo_cultivo: String
+}
+
+class Labor {
+    +fecha: Date
+    +descripcion: String
+}
+
+abstract class ProductoControl {
+    +registro_ica: String
+    +nombre_producto: String
+    +frecuencia_aplicacion: int
+    +valor: Decimal
+}
+
+class ProductoControlHongo {
+    +periodo_carencia: int
+    +nombre_hongo: String
+}
+
+class ProductoControlPlaga {
+    +periodo_carencia: int
+}
+
+class ProductoControlFertilizante {
+    +fecha_ultima_aplicacion: Date
+}
+
+Productor "1" --> "0..*" Finca : posee >
+Finca "1" --> "0..*" Vivero : contiene >
+Vivero "1" --> "0..*" Labor : tiene >
+
+Labor --> "0..*" ProductoControlHongo : usa >
+Labor --> "0..*" ProductoControlPlaga : usa >
+Labor --> "0..*" ProductoControlFertilizante : usa >
+
+ProductoControl <|-- ProductoControlHongo
+ProductoControl <|-- ProductoControlPlaga
+ProductoControl <|-- ProductoControlFertilizante
+
+@enduml
